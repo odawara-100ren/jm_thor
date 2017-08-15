@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+# 直接 $ ruby bin/jm.rb で実行したときに必要
+lib = File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+require "jm_thor"
+require "thor"
+
+module JmThor
+  class CLI < Thor
+    class_option :help, type: :boolean, aliases: '-h', desc: "Show help message."
+    class_option :version, type: :boolean, desc: "Show version."
+    default_task :jm
+
+    desc "test", "test how to use thor."
+    def test
+      puts "test success"
+    end
+
+    desc "jm", "Register ticket name and time."
+    def jm(ticket, manpower, comment)
+      JiraManpower::Register.new.register(ticket, manpower, comment)
+    end
+
+    desc "jmlog", "Show manpower logs."
+    option :date
+    option :all
+    def jmlog(name=nil)
+      if options[:date]
+        JiraManpower::Logger.new.show_datelog(options[:date])
+      elsif options[:all]
+        JiraManpower::Logger.new.show_log_all
+      else
+        # オプション無し
+        JiraManpower::Logger.new.show_log(name)
+      end
+    end
+  end
+end
+
+JmThor::CLI.start(ARGV)
