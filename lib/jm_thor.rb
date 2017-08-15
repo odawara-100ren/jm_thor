@@ -4,11 +4,12 @@ require "pry" # TODO: remove this line.
 
 module JiraManpower
   class DatabaseUtil
+    DATABASE = "jm.db"
     def self.connect
-      db = SQLite3::Database.new "jm.db"
+      db = SQLite3::Database.new DATABASE
       begin
         db.execute sql_create_table
-        puts "'jm.db' created successfully."
+        puts "\"#{DATABASE}\" created successfully."
       rescue => e
         # do nothing.
         # TODO: sql_create_tableをする前に存在確認
@@ -136,9 +137,9 @@ OUT
     # @param [String] manpower 工数を表す文字列。
     def register(ticket_name, manpower, comment)
       mins = @calc.convert(manpower)
-      date = Date.today.to_s
-      @con.execute(DatabaseUtil.insert_sql, [ticket_name, mins, comment, date])
-      puts "[#{date}: #{ticket_name} #{manpower} #{comment}]を登録しました。"
+      today = Date.today.to_s
+      @con.execute(DatabaseUtil.insert_sql, [ticket_name, mins, comment, today])
+      puts "[#{today}: #{ticket_name} #{manpower} #{comment}]を登録しました。"
     rescue => e
       puts e.inspect
       puts "DB登録に失敗しました"
@@ -158,7 +159,7 @@ OUT
     # @param [String] unit 時間の単位
     def to_minutes(time, unit)
       case unit
-      when "h" then time * 60
+      when "h" then (time * 60).to_i
       when "m" then time
       else raise "単位の指定が誤っています(hかmのみ)"
       end

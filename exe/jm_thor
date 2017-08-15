@@ -13,11 +13,6 @@ module JmThor
     class_option :version, type: :boolean, desc: "Show version."
     default_task :jm
 
-    desc "test", "test how to use thor."
-    def test
-      puts "test success"
-    end
-
     desc "jm", "Register ticket name and time."
     def jm(ticket, manpower, comment)
       JiraManpower::Register.new.register(ticket, manpower, comment)

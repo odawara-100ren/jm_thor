@@ -1,5 +1,10 @@
 require "bundler/setup"
 require "jm_thor"
+require "pry"
+
+# DBの切り分け
+# JiraManpower::DatabaseUtil.class_eval{ remove_const(:DATABASE) }
+JiraManpower::DatabaseUtil.const_set(:DATABASE, "jm_test.db")
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -10,5 +15,11 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.append_after(:each) do
+    # 手書きのDatabaseCleaner
+    db = SQLite3::Database.new JiraManpower::DatabaseUtil.const_get(:DATABASE)
+    db.execute "delete from manpowers"
   end
 end
