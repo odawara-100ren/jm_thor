@@ -1,6 +1,9 @@
 require "jm_thor/version"
+require "active_record"
 require "sqlite3"
 require "pry" # TODO: remove this line.
+require "jm_thor/database"
+require "jm_thor/manpower"
 
 module JiraManpower
   class DatabaseUtil

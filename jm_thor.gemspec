@@ -35,5 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "pry-byebug"
   spec.add_dependency "sqlite3"
+  spec.add_dependency "activerecord"
   spec.add_dependency "thor"
 end
