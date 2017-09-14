@@ -1,28 +1,51 @@
 # JmThor
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/jm_thor`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+JmThor is a tool to register and to manage manpower.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'jm_thor'
+gem 'jm_thor', github: "odawara-100ren/jm_thor"
 ```
 
 And then execute:
 
-    $ bundle
+ ```
+ $ bundle
+ ```
 
-Or install it yourself as:
+Or you can install it by yourself.
+[`specific_install`](https://github.com/rdp/specific_install) gem is needed for gem install.
 
-    $ gem install jm_thor
+```
+$ gem install specific_install
+$ gem specific_install -l "https://github.com/odawara-100ren/jm_thor"
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+### 登録
+
+- -t: 作業内容（チケット名）
+- -m: 工数（h, mをサポート、小数をサポート）
+- -c: コメント
+
+```
+$ jm_thor -t SJDEV-123 -m 5.5h -c 設計、仮実装
+```
+
+### 閲覧
+
+```
+# 引数なし（当日のログを出力）
+$ jm_thor jmlog
+# 日付を指定
+$ jm_thor jmlog --date 2017-09-01
+# 作業名を指定
+$ jm_thor jmlog --name SJDEV-123
+```
 
 ## Development
 

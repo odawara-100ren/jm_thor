@@ -11,27 +11,37 @@ module JmThor
   class CLI < Thor
     class_option :help, type: :boolean, aliases: '-h', desc: "Show help message."
     class_option :version, type: :boolean, desc: "Show version."
-    default_task :jm
+    default_command :jm
 
     desc "jm", "Register ticket name and time."
-    def jm(ticket, manpower, comment)
-      JiraManpower::Register.new.register(ticket, manpower, comment)
+    method_option :ticket, type: :string, aliases: ["-t", "--ticket"]
+    method_option :manpower, type: :string, aliases: ["-m", "--manpower"]
+    method_option :comment, type: :string, aliases: ["-c", "--comment"]
+    def jm(*args)
+      JiraManpower::Register.new.register(
+        options[:ticket],
+        options[:manpower],
+        options[:comment]
+      )
     end
 
     desc "jmlog", "Show manpower logs."
-    option :date
-    option :all
-    def jmlog(name=nil)
+    method_option :date, type: :string # YYYY-MM-DDの形式で指定。
+    method_option :all
+    method_option :name, type: :string
+    def jmlog(*args)
       if options[:date]
         JiraManpower::Logger.new.show_datelog(options[:date])
       elsif options[:all]
         JiraManpower::Logger.new.show_log_all
+      elsif options[:name]
+        JiraManpower::Logger.new.show_log(options[:name])
       else
-        # オプション無し
-        JiraManpower::Logger.new.show_log(name)
+        # 引数なしの場合は当日のログを閲覧する
+        JiraManpower::Logger.new.show_datelog(Date.today.to_s)
       end
     end
   end
 end
 
-JmThor::CLI.start(ARGV)
+JmThor::CLI.start
