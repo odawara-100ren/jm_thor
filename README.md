@@ -47,6 +47,28 @@ $ jm_thor jmlog --date 2017-09-01
 $ jm_thor jmlog --name SJDEV-123
 ```
 
+### Example
+
+```
+$ jm_thor -t SJDEV-130 -m 1.5h -c 疲れました
+[2017-09-14: SJDEV-130 1.5h 疲れました]を登録しました。
+$ jm_thor jmlog
+2017-09-14
+チケット名：	SJDEV-130
+工数：	1.5 h
+コメント：	疲れました
+$ jm_thor -t SJDEV-230 -m 100m -c 設計、実装
+[2017-09-14: SJDEV-230 100m 設計、実装]を登録しました。
+$ jm_thor jmlog
+2017-09-14
+チケット名：	SJDEV-130
+工数：	1.5 h
+コメント：	疲れました
+チケット名：	SJDEV-230
+工数：	1.67 h
+コメント：	設計、実装
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
